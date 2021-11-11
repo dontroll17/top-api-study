@@ -3,7 +3,7 @@ import { TypegooseModuleOptions } from "nestjs-typegoose";
 
 export const getMongoConfig = async (configService: ConfigService): Promise<TypegooseModuleOptions> => {
     return {
-        uri: 'getMongoSting()',
+        uri: getMongoSting(configService),
         ...getMongoOptions()
     };
 };
@@ -21,7 +21,8 @@ const getMongoSting = (configService: ConfigService) =>
     configService.get('MONGO_AUTHDATABASE');
 
 const getMongoOptions = () => ({
-    useNewUrlPrser: true,
-    useCreateIndex: true,
+    useNewUrlParser: true,
+//    useCreateIndex: true,
+//MongoParseError: option usecreateindex is not supported
     useUnifiedTopology: true
 });
