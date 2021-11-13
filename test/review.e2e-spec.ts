@@ -14,7 +14,15 @@ const testDto: CreateReviewDto = {
 	description: 'Test description',
 	rating: 5,
 	productId
-}
+};
+
+const testDtoFail: CreateReviewDto = {
+	name: 'Test',
+	title: 'Header',
+	description: 'Test description',
+	rating: 0,
+	productId
+};
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
@@ -37,6 +45,16 @@ describe('AppController (e2e)', () => {
 		.then(({ body }: request.Response) => {
 			createdId = body._id;
 			expect(createdId).toBeDefined();
+		});
+  });
+
+  it('/review/create (POST) - fail', async () => {
+	return request(app.getHttpServer())
+		.post('/review/create')
+		.send(testDtoFail)
+		.expect(400)
+		.then(({ body }: request.Response) => {
+			console.log(body);
 		});
   });
 
