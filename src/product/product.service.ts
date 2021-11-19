@@ -27,7 +27,7 @@ export class ProductService {
         return this.productModel.findByIdAndUpdate(id, dto, { new: true}).exec();
     }
 
-    async findWithReviews(dto: FindProductDto){
+    async findWithReviews(dto: FindProductDto): Promise<(ProductModel & { review: ReviewModel[]; reviewCount: number; reviewAvg: number; })[]>{
         return this.productModel.aggregate([
             {
                 $match: {
@@ -56,6 +56,6 @@ export class ProductService {
                     reviewAvg: { $avg: '$reviews.rating' }
                 }
             }
-        ]).exec() as unknown as (ProductModel & { review: ReviewModel[], reviewCount: number, reviewAvg: number })[];
+        ]).exec();
     }
 }
