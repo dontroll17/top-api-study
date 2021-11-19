@@ -26,12 +26,19 @@ export class ProductController {
 
 	@Delete(':id')
 	async delete(@Param('id') id: string) {
-
+		const deletedProduct = await this.productService.deleteById(id);
+		if(!deletedProduct){
+			throw new NotFoundException(PRODUCT_NOT_FOUND_ERROR);
+		}
 	}
 
 	@Patch(':id')
 	async patch(@Param('id') id: string, @Body() dto: ProductModel){
-
+		const updatedProduct = await this.productService.updateById(id, dto);
+		if(!updatedProduct){
+			throw new NotFoundException(PRODUCT_NOT_FOUND_ERROR);
+		}
+		return updatedProduct;
 	}
 
 

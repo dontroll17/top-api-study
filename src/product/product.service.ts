@@ -15,4 +15,12 @@ export class ProductService {
     async findByid(id: string){
         return this.productModel.findById(id).exec();
     }
+
+    async deleteById(id: string){
+        return this.productModel.findByIdAndDelete(id).exec();
+    }
+
+    async updateById(id: string, dto: CreateProductDto){
+        return this.productModel.findByIdAndUpdate(id, dto, { new: true}).exec();
+    }
 }
