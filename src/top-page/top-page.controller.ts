@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, NotFoundException, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, NotFoundException, Param, Patch, Post, UsePipes, ValidationPipe } from '@nestjs/common';
 import { IdValidationPipe } from 'src/pipes/id-validation.pipe';
 import { CreateTopPageDto } from './dto/create-top-page.dto';
 import { FindTopPageDto } from './dto/find-top-page.dto';
@@ -25,6 +25,15 @@ export class TopPageController {
 		return page;
 	}
 
+	@Get('byAlias/:alias')
+	async getByAlias(@Param('alias') alias: string) {
+		const page = await this.topPageService.findByAlias(alias);
+		if(!page){
+			throw new NotFoundException(NOT_FOUND_TOP_PAGE_ERROR)
+		}
+		return page;
+	}
+
 	@Delete(':id')
 	async delete(@Param('id') id: string) {
 		const deletedPage = await this.topPageService.deleteById(id);
@@ -42,9 +51,10 @@ export class TopPageController {
 		return updatedPage;
 	}
 
+	@UsePipes(new ValidationPipe())
 	@HttpCode(200)
 	@Post()
 	async find(@Body() dto: FindTopPageDto){
-
+		return this.topPageService.findByCategory(dto.firstCategory);
 	}
 }
