@@ -24,7 +24,7 @@ export class TopPageAdvantageDto {
 	description: string;
 }
 
-export class CreateTopPage {
+export class CreateTopPageDto {
 	@IsEnum(TopLevelCategory)
 	firstCategory: TopLevelCategory;
 
