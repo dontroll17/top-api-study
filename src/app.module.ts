@@ -11,6 +11,7 @@ import { getMongoConfig } from './configs/mongo.config';
 import { FilesModule } from './files/files.module';
 import { SitemapModule } from './sitemap/sitemap.module';
 import { TelegramModule } from './telegram/telegram.module';
+import { getTelegramConfig } from './configs/telegram.config';
 
 @Module({
   imports: [
@@ -23,7 +24,14 @@ import { TelegramModule } from './telegram/telegram.module';
     AuthModule,
     TopPageModule, 
     ProductModule, 
-    ReviewModule, FilesModule, SitemapModule, TelegramModule
+    ReviewModule, 
+    FilesModule, 
+    SitemapModule, 
+    TelegramModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: getTelegramConfig
+    })
   ],
   controllers: [AppController],
   providers: [AppService],
